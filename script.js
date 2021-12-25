@@ -8,7 +8,7 @@ const context = canvas.getContext('2d');
 const dpi = window.devicePixelRatio;
 
 let size = 10;
-colorBtn.value = '#000'
+colorBtn.value = '#000000'
 let color = colorBtn.value;
 let isPressed = false;
 let x;
@@ -46,7 +46,7 @@ function clickIncreaseHandler() {
 function clickClearHandler() {
   size = 10;
   sizeInput.value = size;
-  color = '#000';
+  color = '#000000';
   colorBtn.value = color;
   context.clearRect(0, 0 , canvas.width, canvas.height);
 }

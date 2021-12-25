@@ -32,7 +32,7 @@ canvas {
 }
 
 .toolbox > * {
-  background-color: #fff;
+  background-color: #ffffff;
   border: none;
   display: inline-flex;
   align-items: center;
