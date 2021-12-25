@@ -17,14 +17,18 @@ body {
 
 canvas {
   border: 2px solid steelblue;
+  height: calc(100vh - 4.75rem);
+  /* height: auto; */
+  width: 100%;
 }
 
 .toolbox {
   background-color: steelblue;
   border: solid 1px slateblue;
   display: flex;
-  width: 804px;
-  padding: 1rem;
+  width: 100vw;
+  /* width: 804px; */
+  padding: .5rem;
 }
 
 .toolbox > * {
@@ -41,7 +45,7 @@ canvas {
   cursor: pointer;
 }
 
-.toolbox #clear {
+.toolbox > *:last-child {
   margin-left: auto;
 }
 

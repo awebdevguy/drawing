@@ -5,15 +5,19 @@ const increaseBtn = document.getElementById('increase');
 const colorBtn = document.getElementById('color');
 const clearBtn = document.getElementById('clear');
 const context = canvas.getContext('2d');
+const dpi = window.devicePixelRatio;
 
-let size = 20;
-let color = 'black';
+let size = 10;
+colorBtn.value = '#000'
+let color = colorBtn.value;
 let isPressed = false;
 let x;
 let y;
 
 sizeInput.value = size;
 sizeInput.select();
+
+fix_dpi();
 
 decreaseBtn.addEventListener('click', clickDecreaseHandler);
 sizeInput.addEventListener('change', changeSizeHandler);
@@ -40,102 +44,82 @@ function clickIncreaseHandler() {
 }
 
 function clickClearHandler() {
-  size = 20;
+  size = 10;
   sizeInput.value = size;
-  color = 'black';
+  color = '#000';
   colorBtn.value = color;
   context.clearRect(0, 0 , canvas.width, canvas.height);
 }
 
+canvas.addEventListener('touchstart', (e) => {
+  startHandler(e);
+}, false);
+
+canvas.addEventListener('touchmove', (e) => {
+  moveHandler(e);
+}, false);
+
+canvas.addEventListener('touchend', (e) => {
+  endHandler(e);
+}, false);
+
 canvas.addEventListener('mousedown', startHandler);
-
-// if('ontouchmove' in window) {
-//   canvas.addEventListener('touchmove', function() {
-//     let touchHandler = function() {
-//       moveHandler();
-//       this.removeEventListener(touchHandler);
-//     }
-//     this.addEventListener(touchHandler, canvas);
-//   });
-// }
-
-canvas.addEventListener('mouseup', () => {
-  isPressed = false;
-  x = undefined;
-  y = undefined;
-
-  console.log(x, y);
-});
-
 canvas.addEventListener('mousemove', moveHandler);
-// (e) => {
-//   if(isPressed) {
-//     const x2 = e.offsetX;
-//     const y2 = e.offsetY;
+canvas.addEventListener('mouseup', endHandler);
 
-//     drawCircle(x2, y2);
-//     drawLine(x, y, x2, y2);
+let rect = canvas.getBoundingClientRect();
+function startHandler(e) {
+  e.preventDefault();
+  rect = canvas.getBoundingClientRect();
+  isPressed = true;
 
-//     x = x2;
-//     y = y2;
+  if(e.type === 'touchstart') {
+    x = (e.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    y = (e.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+  }
 
-//     console.log(x, y);
-//   }
-// });
-
-// canvas.addEventListener('touchstart', (e) => {
-//   e.preventDefault();
-//   isPressed = true;
-//   x = e.offsetX;
-//   y = e.offsetY;
-// });
-
-canvas.ontouchstart = startHandler;
-canvas.ontouchmove = moveHandler;
-
-function moveHandler(e) {
-  if(isPressed) {
-    const x2 = e.offsetX;
-    const y2 = e.offsetY;
-
-    drawCircle(x2, y2);
-    drawLine(x, y, x2, y2);
-
-    x = x2;
-    y = y2;
-
-    console.log(x, y);
+  if(e.type === 'mousedown') {
+    x = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    y = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
   }
 }
 
-function startHandler(e) {
-  // e.preventDefault();
-  isPressed = true;
-  x = e.offsetX;
-  y = e.offsetY;
-  console.log(x, y);
+function moveHandler(e) {
+  e.preventDefault();
+  rect = canvas.getBoundingClientRect();
+
+  if(isPressed) {
+
+    if(e.type === 'touchmove') {
+      const x2 = (e.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+      const y2 = (e.touches[0].clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+  
+      drawCircle(x2, y2);
+      drawLine(x, y, x2, y2);
+  
+      x = x2;
+      y = y2;
+    }
+
+    if(e.type === 'mousemove') {
+      const x2 = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+      const y2 = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+  
+      drawCircle(x2, y2);
+      drawLine(x, y, x2, y2);
+  
+      x = x2;
+      y = y2;
+    }
+  }
 }
 
-// canvas.addEventListener('touchend', (e) => {
-//   e.preventDefault();
-//   isPressed = false;
-//   x = undefined;
-//   y = undefined;
-// });
-
-// canvas.addEventListener('touchmove', (e) => {
-//   e.preventDefault();
-//   if(isPressed) {
-//     const x2 = e.offsetX;
-//     const y2 = e.offsetY;
-
-//     drawCircle(x2, y2);
-//     drawLine(x, y, x2, y2);
-
-//     x = x2;
-//     y = y2;
-//   }
-// });
+function endHandler(e) {
+  e.preventDefault();
+  isPressed = false;
+  x = undefined;
+  y = undefined;
+}
 
 function drawCircle(x, y) {
   context.beginPath();
@@ -149,6 +133,19 @@ function drawLine(x1, y1, x2, y2) {
   context.moveTo(x1, y1);
   context.lineTo(x2, y2);
   context.strokeStyle = color;
-  context.lineWidth = size * 2;
+  context.lineWidth = size;
   context.stroke();
+}
+
+// fix canvas blur
+function fix_dpi() {
+  //get CSS height
+  //the + prefix casts it to an integer
+  //the slice method gets rid of "px"
+  let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+  //get CSS width
+  let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+  //scale the canvas
+  canvas.setAttribute('height', style_height * dpi);
+  canvas.setAttribute('width', style_width * dpi);
 }
