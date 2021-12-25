@@ -53,11 +53,11 @@ function clickClearHandler() {
 
 canvas.addEventListener('touchstart', (e) => {
   startHandler(e);
-}, false);
+}, {passive: true});
 
 canvas.addEventListener('touchmove', (e) => {
   moveHandler(e);
-}, false);
+}, {passive: true});
 
 canvas.addEventListener('touchend', (e) => {
   endHandler(e);
