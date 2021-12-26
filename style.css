@@ -13,6 +13,7 @@ body {
   justify-content: center;
   height: 100vh;
   margin: 0;
+  position: relative;
 }
 
 canvas {
@@ -28,6 +29,9 @@ canvas {
   width: 100vw;
   /* width: 804px; */
   padding: .5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
   z-index: 100;
 }
 
