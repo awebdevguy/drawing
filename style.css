@@ -17,7 +17,7 @@ body {
 
 canvas {
   border: 2px solid steelblue;
-  height: calc(100vh - 4.75rem);
+  height: calc(100% - 4.75rem);
   /* height: auto; */
   width: 100%;
 }
@@ -43,6 +43,7 @@ canvas {
   margin: 0.25rem;
   padding: 0.25rem;
   cursor: pointer;
+  outline: none;
 }
 
 .toolbox > *:last-child {
@@ -50,11 +51,36 @@ canvas {
 }
 
 #size::-webkit-inner-spin-button {
-  width: 0px;
+  width: auto;
 }
 
 #size {
-  width: 100px;
+  width: 75px;
   text-align: center;
   cursor: default;
+}
+
+#save {
+  width: 50px;
+}
+
+@media(max-width: 600px) {
+
+  .toolbox {
+    padding: .25rem;
+  }
+
+  .toolbox > * {
+    font-size: 1.5rem;
+    height: 2rem;
+    width: 2rem;
+  }
+
+  #size {
+    width: auto;
+  }
+
+  canvas {
+    height: calc(100% - 3rem);
+  }
 }
