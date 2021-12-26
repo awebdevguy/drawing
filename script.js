@@ -162,5 +162,4 @@ function download() {
   let download = document.getElementById('download');
   let image = document.getElementById('canvas').toDataURL('image/jpg').replace('image/jpg', 'image/octet-stream');
   download.setAttribute('href', image);
-  console.log(save);
 }
