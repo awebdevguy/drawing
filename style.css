@@ -30,7 +30,7 @@ canvas {
   /* width: 804px; */
   padding: .5rem;
   position: absolute;
-  top: 0;
+  top: 4.75rem;
   left: 0;
   z-index: 100;
 }
