@@ -6,14 +6,12 @@ const colorBtn = document.getElementById('color');
 const clearBtn = document.getElementById('clear');
 const context = canvas.getContext('2d');
 const dpi = window.devicePixelRatio;
-
-let size = 20;
-colorBtn.value = '#000000'
-let color = colorBtn.value;
 let isPressed = false;
 let x;
 let y;
-
+let size = localStorage.getItem('size') ? localStorage.getItem('size') : 20;
+let color = localStorage.getItem('color') ? localStorage.getItem('color') : '#000000';
+colorBtn.value = color;
 sizeInput.value = size;
 // sizeInput.select();
 
@@ -22,13 +20,15 @@ fix_dpi();
 decreaseBtn.addEventListener('click', clickDecreaseHandler);
 sizeInput.addEventListener('change', changeSizeHandler);
 increaseBtn.addEventListener('click', clickIncreaseHandler);
-colorBtn.addEventListener('input', () => color = colorBtn.value);
+// colorBtn.addEventListener('input', () => color = colorBtn.value);
+colorBtn.addEventListener('input', clickColorHandler);
 clearBtn.addEventListener('click', clickClearHandler);
 
 function clickDecreaseHandler() {
   size--;
   size < 1 ? size = 1 : size;
   sizeInput.value = size;
+  localStorage.setItem('size', size);
 }
 
 function changeSizeHandler(e) {
@@ -36,12 +36,19 @@ function changeSizeHandler(e) {
   const value = e.target.value
   size = value > 99 ? 99 : value;
   sizeInput.value = size;
+  localStorage.setItem('size', size);
 }
 
 function clickIncreaseHandler() {
   size++;
   size > 99 ? size = 99 : size;
   sizeInput.value = size;
+  localStorage.setItem('size', size);
+}
+
+function clickColorHandler() {
+  color = colorBtn.value;
+  localStorage.setItem('color', color);
 }
 
 function clickClearHandler() {
@@ -50,6 +57,7 @@ function clickClearHandler() {
   // color = '#000000';
   // colorBtn.value = color;
   context.clearRect(0, 0 , canvas.width, canvas.height);
+  localStorage.clear();
 }
 
 canvas.addEventListener('touchstart', (e) => {
