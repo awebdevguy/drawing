@@ -35,6 +35,7 @@ function changeSizeHandler(e) {
   e.preventDefault();
   const value = e.target.value
   size = value > 99 ? 99 : value;
+  sizeInput.value = size;
 }
 
 function clickIncreaseHandler() {
@@ -44,10 +45,10 @@ function clickIncreaseHandler() {
 }
 
 function clickClearHandler() {
-  size = 10;
-  sizeInput.value = size;
-  color = '#000000';
-  colorBtn.value = color;
+  // size = 10;
+  // sizeInput.value = size;
+  // color = '#000000';
+  // colorBtn.value = color;
   context.clearRect(0, 0 , canvas.width, canvas.height);
 }
 
