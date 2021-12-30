@@ -13,14 +13,12 @@ let size = localStorage.getItem('size') ? localStorage.getItem('size') : 20;
 let color = localStorage.getItem('color') ? localStorage.getItem('color') : '#000000';
 colorBtn.value = color;
 sizeInput.value = size;
-// sizeInput.select();
 
 fix_dpi();
 
 decreaseBtn.addEventListener('click', clickDecreaseHandler);
-sizeInput.addEventListener('change', changeSizeHandler);
+sizeInput.addEventListener('input', changeSizeHandler);
 increaseBtn.addEventListener('click', clickIncreaseHandler);
-// colorBtn.addEventListener('input', () => color = colorBtn.value);
 colorBtn.addEventListener('input', clickColorHandler);
 clearBtn.addEventListener('click', clickClearHandler);
 
@@ -31,11 +29,8 @@ function clickDecreaseHandler() {
   localStorage.setItem('size', size);
 }
 
-function changeSizeHandler(e) {
-  e.preventDefault();
-  const value = e.target.value
-  size = value > 99 ? 99 : value;
-  sizeInput.value = size;
+function changeSizeHandler() {
+  size = sizeInput.value > 99 ? 99 : sizeInput.value;
   localStorage.setItem('size', size);
 }
 
@@ -52,10 +47,6 @@ function clickColorHandler() {
 }
 
 function clickClearHandler() {
-  // size = 10;
-  // sizeInput.value = size;
-  // color = '#000000';
-  // colorBtn.value = color;
   context.clearRect(0, 0 , canvas.width, canvas.height);
   localStorage.clear();
 }
