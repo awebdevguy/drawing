@@ -23,20 +23,20 @@ colorBtn.addEventListener('input', clickColorHandler);
 clearBtn.addEventListener('click', clickClearHandler);
 
 function clickDecreaseHandler() {
-  size--;
-  size < 1 ? size = 1 : size;
+  size -= 5;
+  size < 5 ? size = 5 : size;
   sizeInput.value = size;
   localStorage.setItem('size', size);
 }
 
 function changeSizeHandler() {
-  size = sizeInput.value > 99 ? 99 : sizeInput.value;
+  size = sizeInput.value > 100 ? 100 : sizeInput.value;
   localStorage.setItem('size', size);
 }
 
 function clickIncreaseHandler() {
-  size++;
-  size > 99 ? size = 99 : size;
+  size += 5;
+  size > 100 ? size = 100 : size;
   sizeInput.value = size;
   localStorage.setItem('size', size);
 }
